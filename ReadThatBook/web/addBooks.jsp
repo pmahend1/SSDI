@@ -4,6 +4,7 @@
     Author     : Prateek
 --%>
 
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,48 +14,49 @@
     </head>
     <body>
         <h1>Add A Book Manually</h1>
-        <form action="ManageBooks" method="POST">
+        <form action="BookManager" method="POST">
+            <input type="hidden" name="action" value="addBook"/>
             <table>
                 <tbody>
                     <tr>
                         <td>Book Title</td>
                         <td>:</td>
-                        <td><input type="text" ng-model="bookTitle"/></td>
+                        <td><input type="text" name="title"/></td>
                     </tr>
                     <tr>
                         <td>ISBN-13</td>
                         <td>:</td>
-                        <td><input type="text" ng-model="ISBN_13"></td>
+                        <td><input type="text" name="ISBN_13"></td>
                     </tr>
                     <tr>
                         <td>ISBN-10</td>
                         <td>:</td>
-                        <td><input type="text" ng-model="ISBN_10"></td>
+                        <td><input type="text" name="ISBN_10"></td>
                     </tr>
                     <tr>
                         <td>Author</td>
                         <td>:</td>
-                        <td><input type="text" ng-model="author"/></td>
+                        <td><input type="text" name="author"/></td>
                     </tr>
                     <tr>
                         <td>Genre</td>
                         <td>:</td>
-                        <td><input type="text" ng-model="author"/></td>
+                        <td><input type="text" name="genre"/></td>
                     </tr>
                     <tr>
                         <td>Edition</td>
                         <td>:</td>
-                        <td><input type="text" ng-model="edition"/></td>
+                        <td><input type="text" name="edition"/></td>
                     </tr>
                     <tr>
                         <td>Publisher</td>
                         <td>:</td>
-                        <td><input type="text" ng-model="publisher"/></td>
+                        <td><input type="text" name="publisher"/></td>
                     </tr>
                     <tr>
                         <td>Description</td>
                         <td>:</td>
-                        <td><textarea rows="4" cols="21"></textarea></td>
+                        <td><textarea rows="4" cols="21" name="description"></textarea></td>
                     </tr>
                     <tr>
                         <td><input type="submit" /></td>
@@ -68,3 +70,4 @@
         </form>
     </body>
 </html>
+

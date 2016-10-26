@@ -5,12 +5,16 @@
  */
 package admin;
 
+
+import business.Book;
+import data.BookDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -35,7 +39,7 @@ public class BookManager extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BookManager</title>");            
+            out.println("<title>Servlet BookManager</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet BookManager at " + request.getContextPath() + "</h1>");
@@ -56,7 +60,7 @@ public class BookManager extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        doPost(request, response);
     }
 
     /**
@@ -70,7 +74,37 @@ public class BookManager extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String action = request.getParameter("action");
+        HttpSession session = request.getSession();
+        String url = "/index.jsp";
+        String message = "";
+        System.out.println("admin.BookManager.doPost()" + action);
+        if (action == null) {
+            action = "viewHome";
+        } else if (action.equals("addBook")) {
+            String title = request.getParameter("title");
+            String description = request.getParameter("description");
+            String ISBN_13 = request.getParameter("ISBN_13");
+            String ISBN_10 = request.getParameter("ISBN_10");
+            String author = request.getParameter("author");
+            String genre = request.getParameter("genre");
+            String edition = request.getParameter("edition");
+            String publisher = request.getParameter("publisher");
+            System.out.println("admin.BookManager.doPost()" + title);
+            System.out.println("admin.BookManager.doPost()" + description);
+            System.out.println("admin.BookManager.doPost()" + ISBN_13);
+            System.out.println("admin.BookManager.doPost()" + ISBN_10);
+            System.out.println("admin.BookManager.doPost()" + author);
+            System.out.println("admin.BookManager.doPost()" + genre);
+            System.out.println("admin.BookManager.doPost()" + edition);
+            System.out.println("admin.BookManager.doPost()" + publisher);
+
+            Book newBook = new Book(title, author, ISBN_10, ISBN_13, genre, edition, publisher, description);
+            BookDB.addBook(newBook);
+            url="/index.jsp";
+            request.setAttribute("newBook", newBook);
+            getServletContext().getRequestDispatcher(url).forward(request, response);
+        }
     }
 
     /**
@@ -78,9 +112,4 @@ public class BookManager extends HttpServlet {
      *
      * @return a String containing servlet description
      */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

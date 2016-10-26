@@ -35,6 +35,7 @@ public class BookDB {
         }
     }
 
+    
     public static Book selectBook(int bookID) {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -50,7 +51,7 @@ public class BookDB {
             Book book = null;
             if (rs.next()) {
                 book = new Book();
-                ps.setString(1, book.getBookID());
+                ps.setInt(1, book.getBookID());
                 ps.setString(2, book.getTitle());
                 ps.setString(3, book.getAuthor());
                 ps.setString(4, book.getISBN_10());
@@ -66,6 +67,29 @@ public class BookDB {
             return null;
         } finally {
             DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
+    
+    public static int deleteBook(int bookID) {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        System.out.println("data.BookDB.deleteBook()");
+        String query
+                    = "DELETE from Book where "
+                + "bookID = ?";
+        try {
+            ps = connection.prepareStatement(query);
+           
+            ps.setInt(1, bookID);
+            
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+            return 0;
+        } finally {
             DBUtil.closePreparedStatement(ps);
             pool.freeConnection(connection);
         }
